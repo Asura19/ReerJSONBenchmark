@@ -22,7 +22,11 @@ let package = Package(
                 .product(name: "IkigaJSON", package: "IkigaJSON")
             ],
             resources: [
-                .copy("github_events.json")
+                .copy("github_events.json"),
+                .copy("twitter.json"),
+                .copy("apache_builds.json"),
+                .copy("canada.json"),
+                .copy("random.json"),
             ]
         ),
     ]
