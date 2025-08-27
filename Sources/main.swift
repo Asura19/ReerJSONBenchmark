@@ -16,6 +16,21 @@ let twitterJSONData: Data = {
     return try! Data(contentsOf: url)
 }()
 
+let apacheBuildsJSONData: Data = {
+    let url = Bundle.module.url(forResource: "apache_builds", withExtension: "json")!
+    return try! Data(contentsOf: url)
+}()
+
+let canadaJSONData: Data = {
+    let url = Bundle.module.url(forResource: "canada", withExtension: "json")!
+    return try! Data(contentsOf: url)
+}()
+
+let randomJSONData: Data = {
+    let url = Bundle.module.url(forResource: "random", withExtension: "json")!
+    return try! Data(contentsOf: url)
+}()
+
 // MARK: - Benchmark Implementation
 
 import Darwin
@@ -207,11 +222,15 @@ func printBenchmarkResults(datasetName: String, results: [BenchmarkResult], iter
     print("📈 Average results based on \(iterations) tests")
 }
 
-// Run all benchmarks for both datasets
+// Run all benchmarks for all five datasets
 func runAllBenchmarks() {
-    let iterations = 5000 // Number of test iterations
+    let iterations = 100 // Number of test iterations
+    
+    // Store all results for comparison
+    var allDatasetResults: [(name: String, results: [BenchmarkResult], size: Int)] = []
     
     // 1. GitHub Events Dataset
+    print("📁 Dataset 1/5: GitHub Events")
     let githubResults = runBenchmark(
         datasetName: "GitHub Events",
         jsonData: githubEventsJSONData,
@@ -219,12 +238,12 @@ func runAllBenchmarks() {
         iterations: iterations
     )
     printBenchmarkResults(datasetName: "GitHub Events", results: githubResults, iterations: iterations)
+    allDatasetResults.append(("GitHub Events", githubResults, githubEventsJSONData.count))
     
-    print("\n")
-    print(String(repeating: "🌟", count: 30))
-    print("\n")
+    print("\n" + String(repeating: "🌟", count: 30) + "\n")
     
     // 2. Twitter Dataset
+    print("📁 Dataset 2/5: Twitter")
     let twitterResults = runBenchmark(
         datasetName: "Twitter",
         jsonData: twitterJSONData,
@@ -232,39 +251,126 @@ func runAllBenchmarks() {
         iterations: iterations
     )
     printBenchmarkResults(datasetName: "Twitter", results: twitterResults, iterations: iterations)
+    allDatasetResults.append(("Twitter", twitterResults, twitterJSONData.count))
     
-    // Overall comparison
+    print("\n" + String(repeating: "🌟", count: 30) + "\n")
+    
+    // 3. Apache Builds Dataset
+    print("📁 Dataset 3/5: Apache Builds")
+    let apacheResults = runBenchmark(
+        datasetName: "Apache Builds",
+        jsonData: apacheBuildsJSONData,
+        type: ApacheBuilds.self,
+        iterations: iterations
+    )
+    printBenchmarkResults(datasetName: "Apache Builds", results: apacheResults, iterations: iterations)
+    allDatasetResults.append(("Apache Builds", apacheResults, apacheBuildsJSONData.count))
+    
+    print("\n" + String(repeating: "🌟", count: 30) + "\n")
+    
+    // 4. Canada Dataset
+    print("📁 Dataset 4/5: Canada Geography")
+    let canadaResults = runBenchmark(
+        datasetName: "Canada Geography",
+        jsonData: canadaJSONData,
+        type: canada.self,
+        iterations: iterations
+    )
+    printBenchmarkResults(datasetName: "Canada Geography", results: canadaResults, iterations: iterations)
+    allDatasetResults.append(("Canada Geography", canadaResults, canadaJSONData.count))
+    
+    print("\n" + String(repeating: "🌟", count: 30) + "\n")
+    
+    // 5. Random Data Dataset
+    print("📁 Dataset 5/5: Random Data")
+    let randomResults = runBenchmark(
+        datasetName: "Random Data",
+        jsonData: randomJSONData,
+        type: random.self,
+        iterations: iterations
+    )
+    printBenchmarkResults(datasetName: "Random Data", results: randomResults, iterations: iterations)
+    allDatasetResults.append(("Random Data", randomResults, randomJSONData.count))
+    
+    // Overall comparison across all datasets
     print("\n")
-    print(String(repeating: "=", count: 80))
-    print("🔥 Overall Performance Comparison")
-    print(String(repeating: "=", count: 80))
+    print(String(repeating: "=", count: 90))
+    print("🔥 Overall Performance Comparison - All 5 Datasets")
+    print(String(repeating: "=", count: 90))
     
-    // Compare fastest performers from each dataset
-    let githubFastest = githubResults.sorted { $0.decodesPerSecond > $1.decodesPerSecond }.first!
-    let twitterFastest = twitterResults.sorted { $0.decodesPerSecond > $1.decodesPerSecond }.first!
+    // Create summary table
+    print("\n📊 Performance Summary by Dataset:")
+    print(String(repeating: "-", count: 90))
     
-    print("GitHub Events Dataset:")
-    print("  🏆 Fastest: \(githubFastest.name)")
-    print("  📊 Performance: \(String(format: "%.2f", githubFastest.decodesPerSecond)) ops/sec")
-    print("  📏 Data size: \(githubEventsJSONData.count) bytes")
+    let headerDataset = "Dataset".padding(toLength: 20, withPad: " ", startingAt: 0)
+    let headerFastest = "Fastest Decoder".padding(toLength: 25, withPad: " ", startingAt: 0)
+    let headerPerf = "Performance".padding(toLength: 15, withPad: " ", startingAt: 0)
+    let headerSize = "Size (bytes)".padding(toLength: 12, withPad: " ", startingAt: 0)
+    let headerComplexity = "Bytes/Op".padding(toLength: 10, withPad: " ", startingAt: 0)
     
-    print("\nTwitter Dataset:")
-    print("  🏆 Fastest: \(twitterFastest.name)")
-    print("  📊 Performance: \(String(format: "%.2f", twitterFastest.decodesPerSecond)) ops/sec")
-    print("  📏 Data size: \(twitterJSONData.count) bytes")
+    print("\(headerDataset) \(headerFastest) \(headerPerf) \(headerSize) \(headerComplexity)")
+    print(String(repeating: "-", count: 90))
     
-    // Data complexity comparison
-    let githubComplexity = Double(githubEventsJSONData.count) / githubFastest.decodesPerSecond
-    let twitterComplexity = Double(twitterJSONData.count) / twitterFastest.decodesPerSecond
+    for (datasetName, results, size) in allDatasetResults {
+        let fastest = results.sorted { $0.decodesPerSecond > $1.decodesPerSecond }.first!
+        let complexity = Double(size) / fastest.decodesPerSecond
+        
+        let paddedDataset = datasetName.padding(toLength: 20, withPad: " ", startingAt: 0)
+        let paddedDecoder = fastest.name.padding(toLength: 25, withPad: " ", startingAt: 0)
+        let paddedPerf = String(format: "%.1f ops/s", fastest.decodesPerSecond).padding(toLength: 15, withPad: " ", startingAt: 0)
+        let paddedSize = String(size).padding(toLength: 12, withPad: " ", startingAt: 0)
+        let paddedComplexity = String(format: "%.0f", complexity).padding(toLength: 10, withPad: " ", startingAt: 0)
+        
+        print("\(paddedDataset) \(paddedDecoder) \(paddedPerf) \(paddedSize) \(paddedComplexity)")
+    }
     
-    print("\n数据复杂度分析:")
-    print("  GitHub Events: \(String(format: "%.0f", githubComplexity)) bytes per operation")
-    print("  Twitter: \(String(format: "%.0f", twitterComplexity)) bytes per operation")
+    // Decoder comparison across datasets
+    print("\n🏆 Decoder Performance Ranking:")
+    print(String(repeating: "-", count: 60))
     
-    if githubComplexity > twitterComplexity {
-        print("  📈 GitHub Events 数据结构相对更复杂")
-    } else {
-        print("  📈 Twitter 数据结构相对更复杂")
+    // Calculate average relative performance for each decoder
+    let decoderNames = ["Foundation JSONDecoder", "ReerJSON", "ZippyJSON", "IkigaJSON"]
+    var decoderAverages: [(String, Double)] = []
+    
+    for decoderName in decoderNames {
+        var totalRelativePerformance = 0.0
+        var validDatasets = 0
+        
+        for (_, results, _) in allDatasetResults {
+            if let foundationResult = results.first(where: { $0.name == "Foundation JSONDecoder" }),
+               let decoderResult = results.first(where: { $0.name == decoderName }),
+               foundationResult.decodesPerSecond > 0 {
+                totalRelativePerformance += decoderResult.decodesPerSecond / foundationResult.decodesPerSecond
+                validDatasets += 1
+            }
+        }
+        
+        if validDatasets > 0 {
+            decoderAverages.append((decoderName, totalRelativePerformance / Double(validDatasets)))
+        }
+    }
+    
+    decoderAverages.sort { $0.1 > $1.1 }
+    
+    for (index, (decoderName, avgPerformance)) in decoderAverages.enumerated() {
+        let rank = index + 1
+        let medal = rank == 1 ? "🥇" : rank == 2 ? "🥈" : rank == 3 ? "🥉" : "  "
+        print("\(medal) #\(rank) \(decoderName): \(String(format: "%.2fx", avgPerformance)) average relative performance")
+    }
+    
+    // Data complexity insights
+    print("\n📈 Data Complexity Analysis:")
+    let sortedByComplexity = allDatasetResults.sorted { 
+        let complexity1 = Double($0.size) / $0.results.sorted { $0.decodesPerSecond > $1.decodesPerSecond }.first!.decodesPerSecond
+        let complexity2 = Double($1.size) / $1.results.sorted { $0.decodesPerSecond > $1.decodesPerSecond }.first!.decodesPerSecond
+        return complexity1 > complexity2
+    }
+    
+    print("从最复杂到最简单:")
+    for (index, (datasetName, results, size)) in sortedByComplexity.enumerated() {
+        let fastest = results.sorted { $0.decodesPerSecond > $1.decodesPerSecond }.first!
+        let complexity = Double(size) / fastest.decodesPerSecond
+        print("  \(index + 1). \(datasetName): \(String(format: "%.0f", complexity)) bytes/operation (\(size) bytes)")
     }
 }
 
