@@ -1,5 +1,5 @@
 {
-  "originHash" : "6dd9f226b97e4d3ac987d3673c567865aea639108273d55288b3f289b340cb5f",
+  "originHash" : "1b8cf4b0f344dea45a7836a47561db0259ea936dbc156d066d4969ea84261731",
   "pins" : [
     {
       "identity" : "ikigajson",
@@ -25,7 +25,7 @@
       "location" : "https://github.com/reers/ReerJSON.git",
       "state" : {
         "branch" : "main",
-        "revision" : "0bfa32a1054b468871ca42335b42e71fbd00b782"
+        "revision" : "3b4cdd9e2575b14a4db1750ace2039540f9ccf73"
       }
     },
     {
