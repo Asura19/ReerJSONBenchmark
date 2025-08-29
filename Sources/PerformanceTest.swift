@@ -6,6 +6,14 @@ import ReerJSON
 import ZippyJSON
 import IkigaJSON
 
+// MARK: - Main
+
+public enum Benchmark {
+    public static func run(iterations: Int = 100) {
+        runAllBenchmarks(iterations: iterations)
+    }
+}
+
 let githubEventsJSONData: Data = {
     let url = Bundle.module.url(forResource: "github_events", withExtension: "json")!
     return try! Data(contentsOf: url)
@@ -223,8 +231,7 @@ func printBenchmarkResults(datasetName: String, results: [BenchmarkResult], iter
 }
 
 // Run all benchmarks for all five datasets
-func runAllBenchmarks() {
-    let iterations = 100 // Number of test iterations
+func runAllBenchmarks(iterations: Int = 100) {
     
     // Store all results for comparison
     var allDatasetResults: [(name: String, results: [BenchmarkResult], size: Int)] = []
@@ -374,6 +381,4 @@ func runAllBenchmarks() {
     }
 }
 
-// MARK: - Main
 
-runAllBenchmarks()

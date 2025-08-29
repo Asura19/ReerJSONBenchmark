@@ -7,6 +7,13 @@ let package = Package(
     name: "ReerJSONBenchmark",
     platforms: [
         .macOS(.v15),
+        .iOS(.v13),
+        .tvOS(.v13)
+    ],
+    products: [
+        .library(
+            name: "ReerJSONBenchmark",
+            targets: ["ReerJSONBenchmark"]),
     ],
     dependencies: [
         .package(url: "https://github.com/reers/ReerJSON.git", branch: "main"),
@@ -14,7 +21,7 @@ let package = Package(
         .package(url: "https://github.com/orlandos-nl/IkigaJSON.git", from: "2.3.2")
     ],
     targets: [
-        .executableTarget(
+        .target(
             name: "ReerJSONBenchmark",
             dependencies: [
                 .product(name: "ReerJSON", package: "ReerJSON" ),
