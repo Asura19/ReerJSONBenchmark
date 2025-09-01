@@ -58,7 +58,7 @@ func measureTime<T>(_ closure: () throws -> T) rethrows -> (result: T, time: Dou
     return (result, timeElapsed)
 }
 
-// Benchmark function
+// Benchmark function with type conversion moved outside the loop
 func benchmark<T: Decodable>(
     name: String,
     decoder: Any,
@@ -71,31 +71,58 @@ func benchmark<T: Decodable>(
     
     print("Testing \(name)...")
     
-    for i in 1...iterations {
-        do {
-            let (_, time) = try measureTime {
-                if let foundationDecoder = decoder as? JSONDecoder {
+    // Move type conversion outside the loop to avoid repeated checks
+    if let foundationDecoder = decoder as? JSONDecoder {
+        for i in 1...iterations {
+            do {
+                let (_, time) = try measureTime {
                     return try foundationDecoder.decode(type, from: jsonData)
-                } else if let reerDecoder = decoder as? ReerJSONDecoder {
-                    return try reerDecoder.decode(type, from: jsonData)
-                } else if let zippyDecoder = decoder as? ZippyJSON.ZippyJSONDecoder {
-                    return try zippyDecoder.decode(type, from: jsonData)
-                } else if let ikigaDecoder = decoder as? IkigaJSON.IkigaJSONDecoder {
-                    return try ikigaDecoder.decode(type, from: jsonData)
-                } else {
-                    throw NSError(domain: "BenchmarkError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unknown decoder type"])
                 }
+                totalTime += time
+                successCount += 1
+            } catch {
+                print("  Test \(i) failed: \(error)")
             }
-            totalTime += time
-            successCount += 1
-            
-            // Display progress
-//            if i % 2 == 0 || i == iterations {
-//                print("  Completed \(i)/\(iterations) tests")
-//            }
-        } catch {
-            print("  Test \(i) failed: \(error)")
         }
+    } else if let reerDecoder = decoder as? ReerJSONDecoder {
+        for i in 1...iterations {
+            do {
+                let (_, time) = try measureTime {
+                    return try reerDecoder.decode(type, from: jsonData)
+                }
+                totalTime += time
+                successCount += 1
+            } catch {
+                print("  Test \(i) failed: \(error)")
+            }
+        }
+    } else if let zippyDecoder = decoder as? ZippyJSON.ZippyJSONDecoder {
+        for i in 1...iterations {
+            do {
+                let (_, time) = try measureTime {
+                    return try zippyDecoder.decode(type, from: jsonData)
+                }
+                totalTime += time
+                successCount += 1
+            } catch {
+                print("  Test \(i) failed: \(error)")
+            }
+        }
+    } else if let ikigaDecoder = decoder as? IkigaJSON.IkigaJSONDecoder {
+        for i in 1...iterations {
+            do {
+                let (_, time) = try measureTime {
+                    return try ikigaDecoder.decode(type, from: jsonData)
+                }
+                totalTime += time
+                successCount += 1
+            } catch {
+                print("  Test \(i) failed: \(error)")
+            }
+        }
+    } else {
+        print("Error: Unknown decoder type")
+        return BenchmarkResult(name: name, decodesPerSecond: 0, averageTime: 0, iterations: 0)
     }
     
     guard successCount > 0 else {
