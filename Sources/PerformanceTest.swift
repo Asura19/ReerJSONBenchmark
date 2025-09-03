@@ -9,7 +9,7 @@ import IkigaJSON
 // MARK: - Main
 
 public enum Benchmark {
-    public static func run(iterations: Int = 500) {
+    public static func run(iterations: Int = 1000) {
         runAllBenchmarks(iterations: iterations)
     }
 }

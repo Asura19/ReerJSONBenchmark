@@ -1,0 +1,168 @@
+📁 Dataset 1/5: GitHub Events
+🚀 Starting GitHub Events JSON Decoding Benchmark
+Data size: 65132 bytes
+============================================================
+Testing Foundation JSONDecoder...
+
+Testing ReerJSON...
+
+Testing ZippyJSON...
+
+Testing IkigaJSON...
+
+============================================================
+📊 GitHub Events Benchmark Results Summary
+============================================================
+Decoder                   Decodes Per Second   Average Time (ms)    Relative Speed      
+--------------------------------------------------------------------------------
+ReerJSON                  1754.32 ops          0.570 ms             1.33x               
+ZippyJSON                 1376.99 ops          0.726 ms             1.04x               
+Foundation JSONDecoder    1319.70 ops          0.758 ms             1.00x               
+IkigaJSON                 213.92 ops           4.675 ms             0.16x               
+
+🏆 Fastest: ReerJSON
+📊 Baseline: Foundation JSONDecoder (1.00x)
+📈 Average results based on 1000 tests
+
+🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+
+📁 Dataset 2/5: Twitter
+🚀 Starting Twitter JSON Decoding Benchmark
+Data size: 631515 bytes
+============================================================
+Testing Foundation JSONDecoder...
+
+Testing ReerJSON...
+
+Testing ZippyJSON...
+
+Testing IkigaJSON...
+
+============================================================
+📊 Twitter Benchmark Results Summary
+============================================================
+Decoder                   Decodes Per Second   Average Time (ms)    Relative Speed      
+--------------------------------------------------------------------------------
+ReerJSON                  1067.92 ops          0.936 ms             2.29x               
+ZippyJSON                 787.49 ops           1.270 ms             1.69x               
+Foundation JSONDecoder    466.15 ops           2.145 ms             1.00x               
+IkigaJSON                 201.86 ops           4.954 ms             0.43x               
+
+🏆 Fastest: ReerJSON
+📊 Baseline: Foundation JSONDecoder (1.00x)
+📈 Average results based on 1000 tests
+
+🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+
+📁 Dataset 3/5: Apache Builds
+🚀 Starting Apache Builds JSON Decoding Benchmark
+Data size: 127275 bytes
+============================================================
+Testing Foundation JSONDecoder...
+
+Testing ReerJSON...
+
+Testing ZippyJSON...
+
+Testing IkigaJSON...
+
+============================================================
+📊 Apache Builds Benchmark Results Summary
+============================================================
+Decoder                   Decodes Per Second   Average Time (ms)    Relative Speed      
+--------------------------------------------------------------------------------
+ReerJSON                  2637.52 ops          0.379 ms             2.05x               
+ZippyJSON                 1796.28 ops          0.557 ms             1.39x               
+Foundation JSONDecoder    1289.22 ops          0.776 ms             1.00x               
+IkigaJSON                 639.70 ops           1.563 ms             0.50x               
+
+🏆 Fastest: ReerJSON
+📊 Baseline: Foundation JSONDecoder (1.00x)
+📈 Average results based on 1000 tests
+
+🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+
+📁 Dataset 4/5: Canada Geography
+🚀 Starting Canada Geography JSON Decoding Benchmark
+Data size: 2251051 bytes
+============================================================
+Testing Foundation JSONDecoder...
+
+Testing ReerJSON...
+
+Testing ZippyJSON...
+
+Testing IkigaJSON...
+
+============================================================
+📊 Canada Geography Benchmark Results Summary
+============================================================
+Decoder                   Decodes Per Second   Average Time (ms)    Relative Speed      
+--------------------------------------------------------------------------------
+ZippyJSON                 32.09 ops            31.163 ms            1.25x               
+ReerJSON                  29.93 ops            33.408 ms            1.17x               
+Foundation JSONDecoder    25.62 ops            39.034 ms            1.00x               
+IkigaJSON                 14.07 ops            71.097 ms            0.55x               
+
+🏆 Fastest: ZippyJSON
+📊 Baseline: Foundation JSONDecoder (1.00x)
+📈 Average results based on 1000 tests
+
+🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+
+📁 Dataset 5/5: Random Data
+🚀 Starting Random Data JSON Decoding Benchmark
+Data size: 510476 bytes
+============================================================
+Testing Foundation JSONDecoder...
+
+Testing ReerJSON...
+
+Testing ZippyJSON...
+
+Testing IkigaJSON...
+
+============================================================
+📊 Random Data Benchmark Results Summary
+============================================================
+Decoder                   Decodes Per Second   Average Time (ms)    Relative Speed      
+--------------------------------------------------------------------------------
+ReerJSON                  382.83 ops           2.612 ms             1.99x               
+ZippyJSON                 287.41 ops           3.479 ms             1.49x               
+Foundation JSONDecoder    192.82 ops           5.186 ms             1.00x               
+IkigaJSON                 101.13 ops           9.889 ms             0.52x               
+
+🏆 Fastest: ReerJSON
+📊 Baseline: Foundation JSONDecoder (1.00x)
+📈 Average results based on 1000 tests
+
+
+==========================================================================================
+🔥 Overall Performance Comparison - All 5 Datasets
+==========================================================================================
+
+📊 Performance Summary by Dataset:
+------------------------------------------------------------------------------------------
+Dataset              Fastest Decoder           Performance     Size (bytes) Bytes/Op  
+------------------------------------------------------------------------------------------
+GitHub Events        ReerJSON                  1754.3 ops/s    65132        37        
+Twitter              ReerJSON                  1067.9 ops/s    631515       591       
+Apache Builds        ReerJSON                  2637.5 ops/s    127275       48        
+Canada Geography     ZippyJSON                 32.1 ops/s      2251051      70149     
+Random Data          ReerJSON                  382.8 ops/s     510476       1333      
+
+🏆 Decoder Performance Ranking:
+------------------------------------------------------------
+🥇 #1 ReerJSON: 1.76x average relative performance
+🥈 #2 ZippyJSON: 1.37x average relative performance
+🥉 #3 Foundation JSONDecoder: 1.00x average relative performance
+   #4 IkigaJSON: 0.43x average relative performance
+
+📈 Data Complexity Analysis:
+从最复杂到最简单:
+  1. Canada Geography: 70149 bytes/operation (2251051 bytes)
+  2. Random Data: 1333 bytes/operation (510476 bytes)
+  3. Twitter: 591 bytes/operation (631515 bytes)
+  4. Apache Builds: 48 bytes/operation (127275 bytes)
+  5. GitHub Events: 37 bytes/operation (65132 bytes)
+Program ended with exit code: 0
