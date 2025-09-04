@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Decoder Performance Comparison</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+        .subtitle {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        canvas {
+            max-height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <div class="title">JSON Decoder Performance Comparison - Higher is Better</div>
+        <div class="subtitle">Apple M4 Pro 48GB MacBook Pro, macOS 15.6 - 1000 iterations per test</div>
+        <canvas id="performanceChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        
+        // Data from benchmark results
+        const datasets = [
+            {
+                label: 'ReerJSON',
+                data: [1754.32, 1067.92, 2637.52, 29.93, 382.83],
+                backgroundColor: '#FF3F33',
+                borderColor: '#FF3F33',
+                borderWidth: 1
+            },
+            {
+                label: 'ZippyJSON',
+                data: [1376.99, 787.49, 1796.28, 32.09, 287.41],
+                backgroundColor: '#B2C6D5',
+                borderColor: '#B2C6D5',
+                borderWidth: 1
+            },
+            {
+                label: 'Foundation',
+                data: [1319.70, 466.15, 1289.22, 25.62, 192.82],
+                backgroundColor: '#075B5E',
+                borderColor: '#075B5E',
+                borderWidth: 1
+            },
+            {
+                label: 'IkigaJSON',
+                data: [213.92, 201.86, 639.70, 14.07, 101.13],
+                backgroundColor: '#9FC87E',
+                borderColor: '#9FC87E',
+                borderWidth: 1
+            }
+        ];
+
+        // Relative performance multipliers (compared to Foundation)
+        const relativePerformance = [
+            [1.33, 2.29, 2.05, 1.17, 1.99], // ReerJSON
+            [1.04, 1.69, 1.39, 1.25, 1.49], // ZippyJSON
+            [1.00, 1.00, 1.00, 1.00, 1.00], // Foundation (baseline)
+            [0.16, 0.43, 0.50, 0.55, 0.52]  // IkigaJSON
+        ];
+
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['github_events', 'twitter', 'apache_builds', 'canada', 'random'],
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                categoryPercentage: 0.8,
+                barPercentage: 1.0,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 12,
+                                weight: '500'
+                            },
+                            color: '#333'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Operations per Second',
+                            font: {
+                                size: 14,
+                                weight: '600'
+                            },
+                            color: '#333'
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        },
+                        ticks: {
+                            font: {
+                                size: 11
+                            },
+                            color: '#666'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        align: 'center',
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'rect',
+                            padding: 20,
+                            font: {
+                                size: 12,
+                                weight: '500'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        titleFont: {
+                            size: 13,
+                            weight: '600'
+                        },
+                        bodyFont: {
+                            size: 12
+                        },
+                        callbacks: {
+                            afterLabel: function(context) {
+                                const datasetIndex = context.datasetIndex;
+                                const dataIndex = context.dataIndex;
+                                const multiplier = relativePerformance[datasetIndex][dataIndex];
+                                return `${multiplier}x vs Foundation`;
+                            }
+                        }
+                    }
+                },
+                layout: {
+                    padding: {
+                        top: 40,
+                        right: 20,
+                        bottom: 20,
+                        left: 20
+                    }
+                },
+                // Custom plugin to add multiplier labels above bars
+                animation: {
+                    onComplete: function() {
+                        const chart = this;
+                        const ctx = chart.ctx;
+                        
+                        ctx.font = '10px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+                        ctx.fillStyle = '#666';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        
+                        chart.data.datasets.forEach((dataset, datasetIndex) => {
+                            const meta = chart.getDatasetMeta(datasetIndex);
+                            meta.data.forEach((bar, index) => {
+                                const multiplier = relativePerformance[datasetIndex][index];
+                                const x = bar.x;
+                                const y = bar.y - 5;
+                                ctx.fillText(`${multiplier}x`, x, y);
+                            });
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
