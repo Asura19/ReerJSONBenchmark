@@ -1,0 +1,200 @@
+📁 Dataset 1/5: GitHub Events
+🚀 Starting GitHub Events JSON Decoding Benchmark
+Data size: 65132 bytes
+============================================================
+Testing Foundation JSONDecoder...
+
+Testing ReerJSON...
+
+Testing ZippyJSON...
+
+Testing IkigaJSON...
+
+Testing Ananda...
+
+Testing SwiftyJSON...
+
+============================================================
+📊 GitHub Events Benchmark Results Summary
+============================================================
+Decoder                   Decodes Per Second   Average Time (ms)    Relative Speed      
+--------------------------------------------------------------------------------
+ReerJSON                  1584.79 ops          0.631 ms             1.24x               
+Ananda                    1328.96 ops          0.752 ms             1.04x               
+ZippyJSON                 1318.75 ops          0.758 ms             1.03x               
+Foundation JSONDecoder    1280.77 ops          0.781 ms             1.00x               
+IkigaJSON                 197.16 ops           5.072 ms             0.15x               
+SwiftyJSON                153.50 ops           6.515 ms             0.12x               
+
+🏆 Fastest: ReerJSON
+📊 Baseline: Foundation JSONDecoder (1.00x)
+📈 Average results based on 1000 tests
+
+🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+
+📁 Dataset 2/5: Twitter
+🚀 Starting Twitter JSON Decoding Benchmark
+Data size: 631515 bytes
+============================================================
+Testing Foundation JSONDecoder...
+
+Testing ReerJSON...
+
+Testing ZippyJSON...
+
+Testing IkigaJSON...
+
+Testing Ananda...
+
+Testing SwiftyJSON...
+
+============================================================
+📊 Twitter Benchmark Results Summary
+============================================================
+Decoder                   Decodes Per Second   Average Time (ms)    Relative Speed      
+--------------------------------------------------------------------------------
+Ananda                    1038.62 ops          0.963 ms             2.36x               
+ReerJSON                  1000.46 ops          1.000 ms             2.27x               
+ZippyJSON                 725.70 ops           1.378 ms             1.65x               
+Foundation JSONDecoder    440.06 ops           2.272 ms             1.00x               
+IkigaJSON                 191.39 ops           5.225 ms             0.43x               
+SwiftyJSON                32.37 ops            30.896 ms            0.07x               
+
+🏆 Fastest: Ananda
+📊 Baseline: Foundation JSONDecoder (1.00x)
+📈 Average results based on 1000 tests
+
+🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+
+📁 Dataset 3/5: Apache Builds
+🚀 Starting Apache Builds JSON Decoding Benchmark
+Data size: 127275 bytes
+============================================================
+Testing Foundation JSONDecoder...
+
+Testing ReerJSON...
+
+Testing ZippyJSON...
+
+Testing IkigaJSON...
+
+Testing Ananda...
+
+Testing SwiftyJSON...
+
+============================================================
+📊 Apache Builds Benchmark Results Summary
+============================================================
+Decoder                   Decodes Per Second   Average Time (ms)    Relative Speed      
+--------------------------------------------------------------------------------
+Ananda                    2861.07 ops          0.350 ms             2.28x               
+ReerJSON                  2443.39 ops          0.409 ms             1.95x               
+ZippyJSON                 1867.03 ops          0.536 ms             1.49x               
+Foundation JSONDecoder    1255.39 ops          0.797 ms             1.00x               
+IkigaJSON                 591.96 ops           1.689 ms             0.47x               
+SwiftyJSON                136.32 ops           7.336 ms             0.11x               
+
+🏆 Fastest: Ananda
+📊 Baseline: Foundation JSONDecoder (1.00x)
+📈 Average results based on 1000 tests
+
+🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+
+📁 Dataset 4/5: Canada Geography
+🚀 Starting Canada Geography JSON Decoding Benchmark
+Data size: 2251051 bytes
+============================================================
+Testing Foundation JSONDecoder...
+
+Testing ReerJSON...
+
+Testing ZippyJSON...
+
+Testing IkigaJSON...
+
+Testing Ananda...
+
+Testing SwiftyJSON...
+
+============================================================
+📊 Canada Geography Benchmark Results Summary
+============================================================
+Decoder                   Decodes Per Second   Average Time (ms)    Relative Speed      
+--------------------------------------------------------------------------------
+Ananda                    68.46 ops            14.608 ms            2.65x               
+ZippyJSON                 34.01 ops            29.407 ms            1.32x               
+ReerJSON                  29.47 ops            33.937 ms            1.14x               
+Foundation JSONDecoder    25.84 ops            38.702 ms            1.00x               
+IkigaJSON                 14.64 ops            68.294 ms            0.57x               
+SwiftyJSON                2.80 ops             356.796 ms           0.11x               
+
+🏆 Fastest: Ananda
+📊 Baseline: Foundation JSONDecoder (1.00x)
+📈 Average results based on 1000 tests
+
+🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+
+📁 Dataset 5/5: Random Data
+🚀 Starting Random Data JSON Decoding Benchmark
+Data size: 510476 bytes
+============================================================
+Testing Foundation JSONDecoder...
+
+Testing ReerJSON...
+
+Testing ZippyJSON...
+
+Testing IkigaJSON...
+
+Testing Ananda...
+
+Testing SwiftyJSON...
+
+============================================================
+📊 Random Data Benchmark Results Summary
+============================================================
+Decoder                   Decodes Per Second   Average Time (ms)    Relative Speed      
+--------------------------------------------------------------------------------
+Ananda                    406.08 ops           2.463 ms             2.15x               
+ReerJSON                  384.32 ops           2.602 ms             2.03x               
+ZippyJSON                 298.29 ops           3.352 ms             1.58x               
+Foundation JSONDecoder    189.10 ops           5.288 ms             1.00x               
+IkigaJSON                 100.54 ops           9.946 ms             0.53x               
+SwiftyJSON                17.63 ops            56.724 ms            0.09x               
+
+🏆 Fastest: Ananda
+📊 Baseline: Foundation JSONDecoder (1.00x)
+📈 Average results based on 1000 tests
+
+
+==========================================================================================
+🔥 Overall Performance Comparison - All 5 Datasets
+==========================================================================================
+
+📊 Performance Summary by Dataset:
+------------------------------------------------------------------------------------------
+Dataset              Fastest Decoder           Performance     Size (bytes) Bytes/Op  
+------------------------------------------------------------------------------------------
+GitHub Events        ReerJSON                  1584.8 ops/s    65132        41        
+Twitter              Ananda                    1038.6 ops/s    631515       608       
+Apache Builds        Ananda                    2861.1 ops/s    127275       44        
+Canada Geography     Ananda                    68.5 ops/s      2251051      32883     
+Random Data          Ananda                    406.1 ops/s     510476       1257      
+
+🏆 Decoder Performance Ranking:
+------------------------------------------------------------
+🥇 #1 Ananda: 2.09x average relative performance
+🥈 #2 ReerJSON: 1.73x average relative performance
+🥉 #3 ZippyJSON: 1.41x average relative performance
+   #4 Foundation JSONDecoder: 1.00x average relative performance
+   #5 IkigaJSON: 0.43x average relative performance
+   #6 SwiftyJSON: 0.10x average relative performance
+
+📈 Data Complexity Analysis:
+从最复杂到最简单:
+  1. Canada Geography: 32883 bytes/operation (2251051 bytes)
+  2. Random Data: 1257 bytes/operation (510476 bytes)
+  3. Twitter: 608 bytes/operation (631515 bytes)
+  4. Apache Builds: 44 bytes/operation (127275 bytes)
+  5. GitHub Events: 41 bytes/operation (65132 bytes)
+Program ended with exit code: 0

@@ -5,6 +5,9 @@ import Foundation
 import ReerJSON
 import ZippyJSON
 import IkigaJSON
+import Ananda
+import AnandaMacros
+import SwiftyJSON
 
 // MARK: - Main
 
@@ -140,8 +143,52 @@ func benchmark<T: Decodable>(
     )
 }
 
+func benchmarkAction(
+    name: String,
+    iterations: Int,
+    action: () throws -> Void
+) -> BenchmarkResult {
+    var totalTime: Double = 0
+    var successCount = 0
+    
+    print("Testing \(name)...")
+    
+    for i in 1...iterations {
+        do {
+            let (_, time) = try measureTime {
+                try action()
+            }
+            totalTime += time
+            successCount += 1
+        } catch {
+            print("  Test \(i) failed: \(error)")
+        }
+    }
+    
+    guard successCount > 0 else {
+        return BenchmarkResult(name: name, decodesPerSecond: 0, averageTime: 0, iterations: 0)
+    }
+    
+    let averageTime = totalTime / Double(successCount)
+    let decodesPerSecond = 1.0 / averageTime
+    
+    return BenchmarkResult(
+        name: name,
+        decodesPerSecond: decodesPerSecond,
+        averageTime: averageTime,
+        iterations: successCount
+    )
+}
+
 // Generic benchmark runner for any JSON data and type
-func runBenchmark<T: Decodable>(datasetName: String, jsonData: Data, type: T.Type, iterations: Int = 100) -> [BenchmarkResult] {
+func runBenchmark<T: Decodable>(
+    datasetName: String,
+    jsonData: Data,
+    type: T.Type,
+    anandaAction: () throws -> Void,
+    swiftyJSONAction: () throws -> Void,
+    iterations: Int = 100
+) -> [BenchmarkResult] {
     print("🚀 Starting \(datasetName) JSON Decoding Benchmark")
     print("Data size: \(jsonData.count) bytes")
     print(String(repeating: "=", count: 60))
@@ -201,6 +248,26 @@ func runBenchmark<T: Decodable>(datasetName: String, jsonData: Data, type: T.Typ
         iterations: iterations
     )
     results.append(ikigaResult)
+    
+    print()
+    
+    // 5. Ananda
+    let anandaResult = benchmarkAction(
+        name: "Ananda",
+        iterations: iterations,
+        action: anandaAction
+    )
+    results.append(anandaResult)
+    
+    print()
+    
+    // 6. SwiftyJSON
+    let swiftyJSONResult = benchmarkAction(
+        name: "SwiftyJSON",
+        iterations: iterations,
+        action: swiftyJSONAction
+    )
+    results.append(swiftyJSONResult)
     
     return results
 }
@@ -269,6 +336,8 @@ func runAllBenchmarks(iterations: Int = 100) {
         datasetName: "GitHub Events",
         jsonData: githubEventsJSONData,
         type: [Event].self,
+        anandaAction: { _ = AnandaGitHub.Model.decode(from: githubEventsJSONData) },
+        swiftyJSONAction: { _ = try SwiftyJSONGitHub.Model(json: .init(data: githubEventsJSONData)) },
         iterations: iterations
     )
     printBenchmarkResults(datasetName: "GitHub Events", results: githubResults, iterations: iterations)
@@ -282,6 +351,8 @@ func runAllBenchmarks(iterations: Int = 100) {
         datasetName: "Twitter",
         jsonData: twitterJSONData,
         type: Twitter.self,
+        anandaAction: { _ = AnandaTwitter.Model.decode(from: twitterJSONData) },
+        swiftyJSONAction: { _ = try SwiftyJSONTwitter.Model(json: .init(data: twitterJSONData)) },
         iterations: iterations
     )
     printBenchmarkResults(datasetName: "Twitter", results: twitterResults, iterations: iterations)
@@ -295,6 +366,8 @@ func runAllBenchmarks(iterations: Int = 100) {
         datasetName: "Apache Builds",
         jsonData: apacheBuildsJSONData,
         type: ApacheBuilds.self,
+        anandaAction: { _ = AnandaApache.Model.decode(from: apacheBuildsJSONData) },
+        swiftyJSONAction: { _ = try SwiftyJSONApache.Model(json: .init(data: apacheBuildsJSONData)) },
         iterations: iterations
     )
     printBenchmarkResults(datasetName: "Apache Builds", results: apacheResults, iterations: iterations)
@@ -308,6 +381,8 @@ func runAllBenchmarks(iterations: Int = 100) {
         datasetName: "Canada Geography",
         jsonData: canadaJSONData,
         type: canada.self,
+        anandaAction: { _ = AnandaCanada.Model.decode(from: canadaJSONData) },
+        swiftyJSONAction: { _ = try SwiftyJSONCanada.Model(json: .init(data: canadaJSONData)) },
         iterations: iterations
     )
     printBenchmarkResults(datasetName: "Canada Geography", results: canadaResults, iterations: iterations)
@@ -321,6 +396,8 @@ func runAllBenchmarks(iterations: Int = 100) {
         datasetName: "Random Data",
         jsonData: randomJSONData,
         type: random.self,
+        anandaAction: { _ = AnandaRandom.Model.decode(from: randomJSONData) },
+        swiftyJSONAction: { _ = try SwiftyJSONRandom.Model(json: .init(data: randomJSONData)) },
         iterations: iterations
     )
     printBenchmarkResults(datasetName: "Random Data", results: randomResults, iterations: iterations)
@@ -363,7 +440,7 @@ func runAllBenchmarks(iterations: Int = 100) {
     print(String(repeating: "-", count: 60))
     
     // Calculate average relative performance for each decoder
-    let decoderNames = ["Foundation JSONDecoder", "ReerJSON", "ZippyJSON", "IkigaJSON"]
+    let decoderNames = ["Foundation JSONDecoder", "ReerJSON", "ZippyJSON", "IkigaJSON", "Ananda", "SwiftyJSON"]
     var decoderAverages: [(String, Double)] = []
     
     for decoderName in decoderNames {

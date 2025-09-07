@@ -465,3 +465,907 @@ struct Event: Decodable {
         case org
     }
 }
+
+import Ananda
+import AnandaMacros
+import SwiftyJSON
+
+public enum AnandaGitHub {
+    @AnandaInit
+    public struct Event: AnandaModel {
+        @AnandaInit
+        public struct Actor: AnandaModel {
+            @AnandaKey("gravatar_id")
+            let gravatarID: String
+            let login: String
+            @AnandaKey("avatar_url")
+            let avatarURL: URL
+            let url: URL
+            let id: Int
+        }
+
+        @AnandaInit
+        public struct Repo: AnandaModel {
+            let url: URL
+            let id: Int
+            let name: String
+        }
+
+        @AnandaInit
+        public struct Payload: AnandaModel {
+            @AnandaInit
+            public struct Commit: AnandaModel {
+                @AnandaInit
+                public struct Author: AnandaModel {
+                    let email: String
+                    let name: String
+                }
+
+                let url: URL
+                let message: String
+                let distinct: Bool
+                let sha: String
+                let author: Author
+            }
+
+            @AnandaInit
+            public struct Forkee: AnandaModel {
+                @AnandaInit
+                public struct Owner: AnandaModel {
+                    let url: URL
+                    @AnandaKey("gists_url")
+                    let gistsURL: URL
+                    @AnandaKey("gravatar_id")
+                    let gravatarID: String
+                    let type: String
+                    @AnandaKey("avatar_url")
+                    let avatarURL: URL
+                    @AnandaKey("subscriptions_url")
+                    let subscriptionsURL: URL
+                    @AnandaKey("organizations_url")
+                    let organizationsURL: URL
+                    @AnandaKey("received_events_url")
+                    let receivedEventsURL: URL
+                    @AnandaKey("repos_url")
+                    let reposURL: URL
+                    let login: String
+                    let id: Int
+                    @AnandaKey("starred_url")
+                    let starredURL: URL
+                    @AnandaKey("events_url")
+                    let eventsURL: URL
+                    @AnandaKey("followers_url")
+                    let followersURL: URL
+                    @AnandaKey("following_url")
+                    let followingURL: URL
+                }
+
+                let description: String
+                let fork: Bool
+                let url: URL
+                let language: String?
+                @AnandaKey("stargazers_url")
+                let stargazersURL: URL
+                @AnandaKey("clone_url")
+                let cloneURL: URL
+                @AnandaKey("tags_url")
+                let tagsURL: URL
+                @AnandaKey("full_name")
+                let fullName: String
+                @AnandaKey("merges_url")
+                let mergesURL: URL
+                let forks: Int
+                @AnandaKey("private")
+                let `private`: Bool
+                @AnandaKey("git_refs_url")
+                let gitRefsURL: URL
+                @AnandaKey("archive_url")
+                let archiveURL: URL
+                @AnandaKey("collaborators_url")
+                let collaboratorsURL: URL
+                let owner: Owner
+                @AnandaKey("languages_url")
+                let languagesURL: URL
+                @AnandaKey("trees_url")
+                let treesURL: URL
+                @AnandaKey("labels_url")
+                let labelsURL: URL
+                @AnandaKey("html_url")
+                let htmlURL: URL
+                @AnandaKey("pushed_at")
+                let pushedAt: Date
+                @AnandaKey("created_at")
+                let createdAt: Date
+                @AnandaKey("has_issues")
+                let hasIssues: Bool
+                @AnandaKey("forks_url")
+                let forksURL: URL
+                @AnandaKey("branches_url")
+                let branchesURL: URL
+                @AnandaKey("commits_url")
+                let commitsURL: URL
+                @AnandaKey("notifications_url")
+                let notificationsURL: URL
+                @AnandaKey("open_issues")
+                let openIssues: Int
+                @AnandaKey("contents_url")
+                let contentsURL: URL
+                @AnandaKey("blobs_url")
+                let blobsURL: URL
+                @AnandaKey("issues_url")
+                let issuesURL: URL
+                @AnandaKey("compare_url")
+                let compareURL: URL
+                @AnandaKey("issue_events_url")
+                let issueEventsURL: URL
+                let name: String
+                @AnandaKey("updated_at")
+                let updatedAt: Date
+                @AnandaKey("statuses_url")
+                let statusesURL: URL
+                @AnandaKey("forks_count")
+                let forksCount: Int
+                @AnandaKey("assignees_url")
+                let assigneesURL: URL
+                @AnandaKey("ssh_url")
+                let sshURL: String?
+                @AnandaKey("public")
+                let `public`: Bool
+                @AnandaKey("has_wiki")
+                let hasWiki: Bool
+                @AnandaKey("subscribers_url")
+                let subscribersURL: URL
+                @AnandaKey("watchers_count")
+                let watchersCount: Int
+                let id: Int
+                @AnandaKey("has_downloads")
+                let hasDownloads: Bool
+                @AnandaKey("git_commits_url")
+                let gitCommitsURL: URL
+                @AnandaKey("downloads_url")
+                let downloadsURL: URL
+                @AnandaKey("pulls_url")
+                let pullsURL: URL
+                let homepage: String?
+                @AnandaKey("issue_comment_url")
+                let issueCommentURL: URL
+                @AnandaKey("hooks_url")
+                let hooksURL: URL
+                @AnandaKey("subscription_url")
+                let subscriptionURL: URL
+                @AnandaKey("milestones_url")
+                let milestonesURL: URL
+                @AnandaKey("svn_url")
+                let svnURL: URL
+                @AnandaKey("events_url")
+                let eventsURL: URL
+                @AnandaKey("git_tags_url")
+                let gitTagsURL: URL
+                @AnandaKey("teams_url")
+                let teamsURL: URL
+                @AnandaKey("comments_url")
+                let commentsURL: URL
+                @AnandaKey("open_issues_count")
+                let openIssuesCount: Int
+                @AnandaKey("keys_url")
+                let keysURL: URL
+                @AnandaKey("git_url")
+                let gitURL: URL
+                @AnandaKey("contributors_url")
+                let contributorsURL: URL
+                let size: Int
+                let watchers: Int
+            }
+
+            @AnandaInit
+            public struct Issue: AnandaModel {
+                @AnandaInit
+                public struct User: AnandaModel {
+                    let url: URL
+                    @AnandaKey("gists_url")
+                    let gistsURL: URL
+                    @AnandaKey("gravatar_id")
+                    let gravatarID: String
+                    let type: String
+                    @AnandaKey("avatar_url")
+                    let avatarURL: URL
+                    @AnandaKey("subscriptions_url")
+                    let subscriptionsURL: URL
+                    @AnandaKey("received_events_url")
+                    let receivedEventsURL: URL
+                    @AnandaKey("organizations_url")
+                    let organizationsURL: URL
+                    @AnandaKey("repos_url")
+                    let reposURL: URL
+                    let login: String
+                    let id: Int
+                    @AnandaKey("starred_url")
+                    let starredURL: URL
+                    @AnandaKey("events_url")
+                    let eventsURL: URL
+                    @AnandaKey("followers_url")
+                    let followersURL: URL
+                    @AnandaKey("following_url")
+                    let followingURL: URL
+                }
+
+                @AnandaInit
+                public struct Assignee: AnandaModel {
+                    let url: URL
+                    @AnandaKey("gists_url")
+                    let gistsURL: URL
+                    @AnandaKey("gravatar_id")
+                    let gravatarID: String
+                    let type: String
+                    @AnandaKey("avatar_url")
+                    let avatarURL: URL
+                    @AnandaKey("subscriptions_url")
+                    let subscriptionsURL: URL
+                    @AnandaKey("organizations_url")
+                    let organizationsURL: URL
+                    @AnandaKey("received_events_url")
+                    let receivedEventsURL: URL
+                    @AnandaKey("repos_url")
+                    let reposURL: URL
+                    let login: String
+                    let id: Int
+                    @AnandaKey("starred_url")
+                    let starredURL: URL
+                    @AnandaKey("events_url")
+                    let eventsURL: URL
+                    @AnandaKey("followers_url")
+                    let followersURL: URL
+                    @AnandaKey("following_url")
+                    let followingURL: URL
+                }
+
+                let user: User
+                let url: URL
+                @AnandaKey("html_url")
+                let htmlURL: URL
+                @AnandaKey("labels_url")
+                let labelsURL: URL
+                @AnandaKey("created_at")
+                let createdAt: Date
+                @AnandaKey("closed_at")
+                let closedAt: Date?
+                let title: String
+                let body: String
+                @AnandaKey("updated_at")
+                let updatedAt: Date
+                let number: Int
+                let state: String
+                let assignee: Assignee?
+                let id: Int
+                @AnandaKey("events_url")
+                let eventsURL: URL
+                @AnandaKey("comments_url")
+                let commentsURL: URL
+                let comments: Int
+            }
+
+            @AnandaInit
+            public struct Comment: AnandaModel {
+                @AnandaInit
+                public struct User: AnandaModel {
+                    let url: URL
+                    @AnandaKey("gists_url")
+                    let gistsURL: URL
+                    @AnandaKey("gravatar_id")
+                    let gravatarID: String
+                    let type: String
+                    @AnandaKey("avatar_url")
+                    let avatarURL: URL
+                    @AnandaKey("subscriptions_url")
+                    let subscriptionsURL: URL
+                    @AnandaKey("received_events_url")
+                    let receivedEventsURL: URL
+                    @AnandaKey("organizations_url")
+                    let organizationsURL: URL
+                    @AnandaKey("repos_url")
+                    let reposURL: URL
+                    let login: String
+                    let id: Int
+                    @AnandaKey("starred_url")
+                    let starredURL: URL
+                    @AnandaKey("events_url")
+                    let eventsURL: URL
+                    @AnandaKey("followers_url")
+                    let followersURL: URL
+                    @AnandaKey("following_url")
+                    let followingURL: URL
+                }
+
+                let user: User
+                let url: URL
+                @AnandaKey("issue_url")
+                let issueURL: URL
+                @AnandaKey("created_at")
+                let createdAt: Date
+                let body: String
+                @AnandaKey("updated_at")
+                let updatedAt: Date
+                let id: Int
+            }
+
+            @AnandaInit
+            public struct Page: AnandaModel {
+                @AnandaKey("page_name")
+                let pageName: String
+                @AnandaKey("html_url")
+                let htmlURL: URL
+                let title: String
+                let sha: String
+                let action: String
+            }
+
+            let commits: [Commit]?
+            @AnandaKey("distinct_size")
+            let distinctSize: Int?
+            let ref: String?
+            @AnandaKey("push_id")
+            let pushID: Int?
+            let head: String?
+            let before: String?
+            let size: Int?
+            let description: String?
+            @AnandaKey("master_branch")
+            let masterBranch: String?
+            @AnandaKey("ref_type")
+            let refType: String?
+            let forkee: Forkee?
+            let action: String?
+            let issue: Issue?
+            let comment: Comment?
+            let pages: [Page]?
+        }
+
+        @AnandaInit
+        public struct Org: AnandaModel {
+            @AnandaKey("gravatar_id")
+            let gravatarID: String
+            let login: String
+            @AnandaKey("avatar_url")
+            let avatarURL: URL
+            let url: URL
+            let id: Int
+        }
+
+        let type: String
+        @AnandaKey("created_at")
+        let createdAt: Date
+        @AnandaKey("actor")
+        let `actor`: Actor
+        let repo: Repo
+        @AnandaKey("public")
+        let `public`: Bool
+        let payload: Payload
+        let id: String
+        let org: Org?
+    }
+
+    public struct Model: AnandaModel {
+        let list: [Event]
+
+        public init(json: AnandaJSON) {
+            list = json.array().map { .init(json: $0) }
+        }
+    }
+}
+
+
+extension SwiftyJSON.JSON {
+    nonisolated(unsafe) static let iso8601DateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter
+    }()
+
+    var urlValue: URL {
+        url ?? .init(string: "/")!
+    }
+
+    var dateValue: Date {
+        Self.iso8601DateFormatter.date(from: stringValue) ?? .init()
+    }
+
+    var emptyAsNil: SwiftyJSON.JSON? {
+        if self.type == .null {
+            return nil
+        }
+        if type == .dictionary {
+            if !dictionaryValue.isEmpty {
+                return self
+            }
+        }
+        return self
+    }
+}
+
+public enum SwiftyJSONGitHub {
+    public struct Event {
+        public struct Actor {
+            let gravatarID: String
+            let login: String
+            let avatarURL: URL
+            let url: URL
+            let id: Int
+
+            init(json: SwiftyJSON.JSON) {
+                gravatarID = json["gravatar_id"].stringValue
+                login = json["login"].stringValue
+                avatarURL = json["avatar_url"].urlValue
+                url = json["url"].urlValue
+                id = json["id"].intValue
+            }
+        }
+
+        public struct Repo {
+            let url: URL
+            let id: Int
+            let name: String
+
+            init(json: SwiftyJSON.JSON) {
+                url = json["url"].urlValue
+                id = json["id"].intValue
+                name = json["name"].stringValue
+            }
+        }
+
+        public struct Payload {
+            struct Commit {
+                struct Author {
+                    let email: String
+                    let name: String
+
+                    init(json: SwiftyJSON.JSON) {
+                        email = json["email"].stringValue
+                        name = json["name"].stringValue
+                    }
+                }
+
+                let url: URL
+                let message: String
+                let distinct: Bool
+                let sha: String
+                let author: Author
+
+                init(json: SwiftyJSON.JSON) {
+                    url = json["url"].urlValue
+                    message = json["message"].stringValue
+                    distinct = json["distinct"].boolValue
+                    sha = json["sha"].stringValue
+                    author = .init(json: json["author"])
+                }
+            }
+
+            struct Forkee {
+                struct Owner {
+                    let url: URL
+                    let gistsURL: URL
+                    let gravatarID: String
+                    let type: String
+                    let avatarURL: URL
+                    let subscriptionsURL: URL
+                    let organizationsURL: URL
+                    let receivedEventsURL: URL
+                    let reposURL: URL
+                    let login: String
+                    let id: Int
+                    let starredURL: URL
+                    let eventsURL: URL
+                    let followersURL: URL
+                    let followingURL: URL
+
+                    init(json: SwiftyJSON.JSON) {
+                        url = json["url"].urlValue
+                        gistsURL = json["gists_url"].urlValue
+                        gravatarID = json["gravatar_id"].stringValue
+                        type = json["type"].stringValue
+                        avatarURL = json["avatar_url"].urlValue
+                        subscriptionsURL = json["subscriptions_url"].urlValue
+                        organizationsURL = json["organizations_url"].urlValue
+                        receivedEventsURL = json["received_events_url"].urlValue
+                        reposURL = json["repos_url"].urlValue
+                        login = json["login"].stringValue
+                        id = json["id"].intValue
+                        starredURL = json["starred_url"].urlValue
+                        eventsURL = json["events_url"].urlValue
+                        followersURL = json["followers_url"].urlValue
+                        followingURL = json["following_url"].urlValue
+                    }
+                }
+
+                let description: String
+                let fork: Bool
+                let url: URL
+                let language: String?
+                let stargazersURL: URL
+                let cloneURL: URL
+                let tagsURL: URL
+                let fullName: String
+                let mergesURL: URL
+                let forks: Int
+                let `private`: Bool
+                let gitRefsURL: URL
+                let archiveURL: URL
+                let collaboratorsURL: URL
+                let owner: Owner
+                let languagesURL: URL
+                let treesURL: URL
+                let labelsURL: URL
+                let htmlURL: URL
+                let pushedAt: Date
+                let createdAt: Date
+                let hasIssues: Bool
+                let forksURL: URL
+                let branchesURL: URL
+                let commitsURL: URL
+                let notificationsURL: URL
+                let openIssues: Int
+                let contentsURL: URL
+                let blobsURL: URL
+                let issuesURL: URL
+                let compareURL: URL
+                let issueEventsURL: URL
+                let name: String
+                let updatedAt: Date
+                let statusesURL: URL
+                let forksCount: Int
+                let assigneesURL: URL
+                let sshURL: String?
+                let `public`: Bool
+                let hasWiki: Bool
+                let subscribersURL: URL
+                let watchersCount: Int
+                let id: Int
+                let hasDownloads: Bool
+                let gitCommitsURL: URL
+                let downloadsURL: URL
+                let pullsURL: URL
+                let homepage: String?
+                let issueCommentURL: URL
+                let hooksURL: URL
+                let subscriptionURL: URL
+                let milestonesURL: URL
+                let svnURL: URL
+                let eventsURL: URL
+                let gitTagsURL: URL
+                let teamsURL: URL
+                let commentsURL: URL
+                let openIssuesCount: Int
+                let keysURL: URL
+                let gitURL: URL
+                let contributorsURL: URL
+                let size: Int
+                let watchers: Int
+
+                init(json: SwiftyJSON.JSON) {
+                    description = json["description"].stringValue
+                    fork = json["fork"].boolValue
+                    url = json["url"].urlValue
+                    language = json["language"].string
+                    stargazersURL = json["stargazers_url"].urlValue
+                    cloneURL = json["clone_url"].urlValue
+                    tagsURL = json["tags_url"].urlValue
+                    fullName = json["full_name"].stringValue
+                    mergesURL = json["merges_url"].urlValue
+                    forks = json["forks"].intValue
+                    `private` = json["private"].boolValue
+                    gitRefsURL = json["git_refs_url"].urlValue
+                    archiveURL = json["archive_url"].urlValue
+                    collaboratorsURL = json["collaborators_url"].urlValue
+                    owner = .init(json: json["owner"])
+                    languagesURL = json["languages_url"].urlValue
+                    treesURL = json["trees_url"].urlValue
+                    labelsURL = json["labels_url"].urlValue
+                    htmlURL = json["html_url"].urlValue
+                    pushedAt = json["pushed_at"].dateValue
+                    createdAt = json["created_at"].dateValue
+                    hasIssues = json["has_issues"].boolValue
+                    forksURL = json["forks_url"].urlValue
+                    branchesURL = json["branches_url"].urlValue
+                    commitsURL = json["commits_url"].urlValue
+                    notificationsURL = json["notifications_url"].urlValue
+                    openIssues = json["open_issues"].intValue
+                    contentsURL = json["contents_url"].urlValue
+                    blobsURL = json["blobs_url"].urlValue
+                    issuesURL = json["issues_url"].urlValue
+                    compareURL = json["compare_url"].urlValue
+                    issueEventsURL = json["issue_events_url"].urlValue
+                    name = json["name"].stringValue
+                    updatedAt = json["updated_at"].dateValue
+                    statusesURL = json["statuses_url"].urlValue
+                    forksCount = json["forks_count"].intValue
+                    assigneesURL = json["assignees_url"].urlValue
+                    sshURL = json["ssh_url"].string
+                    `public` = json["public"].boolValue
+                    hasWiki = json["has_wiki"].boolValue
+                    subscribersURL = json["subscribers_url"].urlValue
+                    watchersCount = json["watchers_count"].intValue
+                    id = json["id"].intValue
+                    hasDownloads = json["has_downloads"].boolValue
+                    gitCommitsURL = json["git_commits_url"].urlValue
+                    downloadsURL = json["downloads_url"].urlValue
+                    pullsURL = json["pulls_url"].urlValue
+                    homepage = json["homepage"].string
+                    issueCommentURL = json["issue_comment_url"].urlValue
+                    hooksURL = json["hooks_url"].urlValue
+                    subscriptionURL = json["subscription_url"].urlValue
+                    milestonesURL = json["milestones_url"].urlValue
+                    svnURL = json["svn_url"].urlValue
+                    eventsURL = json["events_url"].urlValue
+                    gitTagsURL = json["git_tags_url"].urlValue
+                    teamsURL = json["teams_url"].urlValue
+                    commentsURL = json["comments_url"].urlValue
+                    openIssuesCount = json["open_issues_count"].intValue
+                    keysURL = json["keys_url"].urlValue
+                    gitURL = json["git_url"].urlValue
+                    contributorsURL = json["contributors_url"].urlValue
+                    size = json["size"].intValue
+                    watchers = json["watchers"].intValue
+                }
+            }
+
+            struct Issue {
+                struct User {
+                    let url: URL
+                    let gistsURL: URL
+                    let gravatarID: String
+                    let type: String
+                    let avatarURL: URL
+                    let subscriptionsURL: URL
+                    let receivedEventsURL: URL
+                    let organizationsURL: URL
+                    let reposURL: URL
+                    let login: String
+                    let id: Int
+                    let starredURL: URL
+                    let eventsURL: URL
+                    let followersURL: URL
+                    let followingURL: URL
+
+                    init(json: SwiftyJSON.JSON) {
+                        url = json["url"].urlValue
+                        gistsURL = json["gists_url"].urlValue
+                        gravatarID = json["gravatar_id"].stringValue
+                        type = json["type"].stringValue
+                        avatarURL = json["avatar_url"].urlValue
+                        subscriptionsURL = json["subscriptions_url"].urlValue
+                        receivedEventsURL = json["received_events_url"].urlValue
+                        organizationsURL = json["organizations_url"].urlValue
+                        reposURL = json["repos_url"].urlValue
+                        login = json["login"].stringValue
+                        id = json["id"].intValue
+                        starredURL = json["starred_url"].urlValue
+                        eventsURL = json["events_url"].urlValue
+                        followersURL = json["followers_url"].urlValue
+                        followingURL = json["following_url"].urlValue
+                    }
+                }
+
+                struct Assignee {
+                    let url: URL
+                    let gistsURL: URL
+                    let gravatarID: String
+                    let type: String
+                    let avatarURL: URL
+                    let subscriptionsURL: URL
+                    let organizationsURL: URL
+                    let receivedEventsURL: URL
+                    let reposURL: URL
+                    let login: String
+                    let id: Int
+                    let starredURL: URL
+                    let eventsURL: URL
+                    let followersURL: URL
+                    let followingURL: URL
+
+                    init(json: SwiftyJSON.JSON) {
+                        url = json["url"].urlValue
+                        gistsURL = json["gists_url"].urlValue
+                        gravatarID = json["gravatar_id"].stringValue
+                        type = json["type"].stringValue
+                        avatarURL = json["avatar_url"].urlValue
+                        subscriptionsURL = json["subscriptions_url"].urlValue
+                        organizationsURL = json["organizations_url"].urlValue
+                        receivedEventsURL = json["received_events_url"].urlValue
+                        reposURL = json["repos_url"].urlValue
+                        login = json["login"].stringValue
+                        id = json["id"].intValue
+                        starredURL = json["starred_url"].urlValue
+                        eventsURL = json["events_url"].urlValue
+                        followersURL = json["followers_url"].urlValue
+                        followingURL = json["following_url"].urlValue
+                    }
+                }
+
+                let user: User
+                let url: URL
+                let htmlURL: URL
+                let labelsURL: URL
+                let createdAt: Date
+                let closedAt: Date?
+                let title: String
+                let body: String
+                let updatedAt: Date
+                let number: Int
+                let state: String
+                let assignee: Assignee?
+                let id: Int
+                let eventsURL: URL
+                let commentsURL: URL
+                let comments: Int
+
+                init(json: SwiftyJSON.JSON) {
+                    user = .init(json: json["user"])
+                    url = json["url"].urlValue
+                    htmlURL = json["html_url"].urlValue
+                    labelsURL = json["labels_url"].urlValue
+                    createdAt = json["created_at"].dateValue
+                    closedAt = json["closed_at"].string.flatMap { SwiftyJSON.JSON.iso8601DateFormatter.date(from: $0) }
+                    title = json["title"].stringValue
+                    body = json["body"].stringValue
+                    updatedAt = json["updated_at"].dateValue
+                    number = json["number"].intValue
+                    state = json["state"].stringValue
+                    assignee = json["assignee"].emptyAsNil.map { .init(json: $0) }
+                    id = json["id"].intValue
+                    eventsURL = json["events_url"].urlValue
+                    commentsURL = json["comments_url"].urlValue
+                    comments = json["comments"].intValue
+                }
+            }
+
+            struct Comment {
+                struct User {
+                    let url: URL
+                    let gistsURL: URL
+                    let gravatarID: String
+                    let type: String
+                    let avatarURL: URL
+                    let subscriptionsURL: URL
+                    let receivedEventsURL: URL
+                    let organizationsURL: URL
+                    let reposURL: URL
+                    let login: String
+                    let id: Int
+                    let starredURL: URL
+                    let eventsURL: URL
+                    let followersURL: URL
+                    let followingURL: URL
+
+                    init(json: SwiftyJSON.JSON) {
+                        url = json["url"].urlValue
+                        gistsURL = json["gists_url"].urlValue
+                        gravatarID = json["gravatar_id"].stringValue
+                        type = json["type"].stringValue
+                        avatarURL = json["avatar_url"].urlValue
+                        subscriptionsURL = json["subscriptions_url"].urlValue
+                        receivedEventsURL = json["received_events_url"].urlValue
+                        organizationsURL = json["organizations_url"].urlValue
+                        reposURL = json["repos_url"].urlValue
+                        login = json["login"].stringValue
+                        id = json["id"].intValue
+                        starredURL = json["starred_url"].urlValue
+                        eventsURL = json["events_url"].urlValue
+                        followersURL = json["followers_url"].urlValue
+                        followingURL = json["following_url"].urlValue
+                    }
+                }
+
+                let user: User
+                let url: URL
+                let issueURL: URL
+                let createdAt: Date
+                let body: String
+                let updatedAt: Date
+                let id: Int
+
+                init(json: SwiftyJSON.JSON) {
+                    user = .init(json: json["user"])
+                    url = json["url"].urlValue
+                    issueURL = json["issue_url"].urlValue
+                    createdAt = json["created_at"].dateValue
+                    body = json["body"].stringValue
+                    updatedAt = json["updated_at"].dateValue
+                    id = json["id"].intValue
+                }
+            }
+
+            struct Page {
+                let pageName: String
+                let htmlURL: URL
+                let title: String
+                let sha: String
+                let action: String
+
+                init(json: SwiftyJSON.JSON) {
+                    pageName = json["page_name"].stringValue
+                    htmlURL = json["html_url"].urlValue
+                    title = json["title"].stringValue
+                    sha = json["sha"].stringValue
+                    action = json["action"].stringValue
+                }
+            }
+
+            let commits: [Commit]?
+            let distinctSize: Int?
+            let ref: String?
+            let pushID: Int?
+            let head: String?
+            let before: String?
+            let size: Int?
+            let description: String?
+            let masterBranch: String?
+            let refType: String?
+            let forkee: Forkee?
+            let action: String?
+            let issue: Issue?
+            let comment: Comment?
+            let pages: [Page]?
+
+            init(json: SwiftyJSON.JSON) {
+                commits = json["commits"].array?.map { .init(json: $0) }
+                distinctSize = json["distinct_size"].int
+                ref = json["ref"].string
+                pushID = json["push_id"].int
+                head = json["head"].string
+                before = json["before"].string
+                size = json["size"].int
+                description = json["description"].string
+                masterBranch = json["master_branch"].string
+                refType = json["ref_type"].string
+                forkee = json["forkee"].emptyAsNil.map { .init(json: $0) }
+                action = json["action"].string
+                issue = json["issue"].emptyAsNil.map { .init(json: $0) }
+                comment = json["comment"].emptyAsNil.map { .init(json: $0) }
+                pages = json["pages"].array?.map { .init(json: $0) }
+            }
+        }
+
+        struct Org {
+            let gravatarID: String
+            let login: String
+            let avatarURL: URL
+            let url: URL
+            let id: Int
+
+            init(json: SwiftyJSON.JSON) {
+                gravatarID = json["gravatar_id"].stringValue
+                login = json["login"].stringValue
+                avatarURL = json["avatar_url"].urlValue
+                url = json["url"].urlValue
+                id = json["id"].intValue
+            }
+        }
+
+        let type: String
+        let createdAt: Date
+        let `actor`: Actor
+        let repo: Repo
+        let `public`: Bool
+        let payload: Payload
+        let id: String
+        let org: Org?
+
+        init(json: SwiftyJSON.JSON) {
+            type = json["type"].stringValue
+            createdAt = json["created_at"].dateValue
+            `actor` = .init(json: json["actor"])
+            repo = .init(json: json["repo"])
+            `public` = json["public"].boolValue
+            payload = .init(json: json["payload"])
+            id = json["id"].stringValue
+            org = json["org"].emptyAsNil.map { .init(json: $0) }
+        }
+    }
+
+    public struct Model {
+        let list: [Event]
+
+        init(json: SwiftyJSON.JSON) {
+            list = json.arrayValue.map { .init(json: $0) }
+        }
+    }
+}
