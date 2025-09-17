@@ -9,11 +9,209 @@ import Ananda
 import AnandaMacros
 import SwiftyJSON
 
-// MARK: - Main
+// 使用 swift-benchmark 进行基准测试
+#if canImport(Benchmark)
+import Benchmark
 
+// MARK: - Swift Benchmark 实现
+
+public func setupBenchmarks() {
+    // GitHub Events 基准测试
+    benchmark("GitHub Events - Foundation JSONDecoder") {
+        let decoder = Foundation.JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode([Event].self, from: githubEventsJSONData)
+    }
+    
+    benchmark("GitHub Events - ReerJSON") {
+        let decoder = ReerJSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode([Event].self, from: githubEventsJSONData)
+    }
+    
+    benchmark("GitHub Events - ZippyJSON") {
+        let decoder = ZippyJSON.ZippyJSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode([Event].self, from: githubEventsJSONData)
+    }
+    
+    benchmark("GitHub Events - IkigaJSON") {
+        var decoder = IkigaJSON.IkigaJSONDecoder()
+        decoder.settings.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode([Event].self, from: githubEventsJSONData)
+    }
+    
+    benchmark("GitHub Events - Ananda") {
+        _ = AnandaGitHub.Model.decode(from: githubEventsJSONData)
+    }
+    
+    benchmark("GitHub Events - SwiftyJSON") {
+        _ = try! SwiftyJSONGitHub.Model(json: SwiftyJSON.JSON(data: githubEventsJSONData))
+    }
+    
+    // Twitter 基准测试
+    benchmark("Twitter - Foundation JSONDecoder") {
+        let decoder = Foundation.JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(Twitter.self, from: twitterJSONData)
+    }
+    
+    benchmark("Twitter - ReerJSON") {
+        let decoder = ReerJSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(Twitter.self, from: twitterJSONData)
+    }
+    
+    benchmark("Twitter - ZippyJSON") {
+        let decoder = ZippyJSON.ZippyJSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(Twitter.self, from: twitterJSONData)
+    }
+    
+    benchmark("Twitter - IkigaJSON") {
+        var decoder = IkigaJSON.IkigaJSONDecoder()
+        decoder.settings.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(Twitter.self, from: twitterJSONData)
+    }
+    
+    benchmark("Twitter - Ananda") {
+        _ = AnandaTwitter.Model.decode(from: twitterJSONData)
+    }
+    
+    benchmark("Twitter - SwiftyJSON") {
+        _ = try! SwiftyJSONTwitter.Model(json: SwiftyJSON.JSON(data: twitterJSONData))
+    }
+    
+    // Apache Builds 基准测试
+    benchmark("Apache Builds - Foundation JSONDecoder") {
+        let decoder = Foundation.JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(ApacheBuilds.self, from: apacheBuildsJSONData)
+    }
+    
+    benchmark("Apache Builds - ReerJSON") {
+        let decoder = ReerJSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(ApacheBuilds.self, from: apacheBuildsJSONData)
+    }
+    
+    benchmark("Apache Builds - ZippyJSON") {
+        let decoder = ZippyJSON.ZippyJSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(ApacheBuilds.self, from: apacheBuildsJSONData)
+    }
+    
+    benchmark("Apache Builds - IkigaJSON") {
+        var decoder = IkigaJSON.IkigaJSONDecoder()
+        decoder.settings.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(ApacheBuilds.self, from: apacheBuildsJSONData)
+    }
+    
+    benchmark("Apache Builds - Ananda") {
+        _ = AnandaApache.Model.decode(from: apacheBuildsJSONData)
+    }
+    
+    benchmark("Apache Builds - SwiftyJSON") {
+        _ = try! SwiftyJSONApache.Model(json: SwiftyJSON.JSON(data: apacheBuildsJSONData))
+    }
+    
+    // Canada Geography 基准测试
+    benchmark("Canada Geography - Foundation JSONDecoder") {
+        let decoder = Foundation.JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(canada.self, from: canadaJSONData)
+    }
+    
+    benchmark("Canada Geography - ReerJSON") {
+        let decoder = ReerJSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(canada.self, from: canadaJSONData)
+    }
+    
+    benchmark("Canada Geography - ZippyJSON") {
+        let decoder = ZippyJSON.ZippyJSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(canada.self, from: canadaJSONData)
+    }
+    
+    benchmark("Canada Geography - IkigaJSON") {
+        var decoder = IkigaJSON.IkigaJSONDecoder()
+        decoder.settings.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(canada.self, from: canadaJSONData)
+    }
+    
+    benchmark("Canada Geography - Ananda") {
+        _ = AnandaCanada.Model.decode(from: canadaJSONData)
+    }
+    
+    benchmark("Canada Geography - SwiftyJSON") {
+        _ = try! SwiftyJSONCanada.Model(json: SwiftyJSON.JSON(data: canadaJSONData))
+    }
+    
+    // Random Data 基准测试
+    benchmark("Random Data - Foundation JSONDecoder") {
+        let decoder = Foundation.JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(random.self, from: randomJSONData)
+    }
+    
+    benchmark("Random Data - ReerJSON") {
+        let decoder = ReerJSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(random.self, from: randomJSONData)
+    }
+    
+    benchmark("Random Data - ZippyJSON") {
+        let decoder = ZippyJSON.ZippyJSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(random.self, from: randomJSONData)
+    }
+    
+    benchmark("Random Data - IkigaJSON") {
+        var decoder = IkigaJSON.IkigaJSONDecoder()
+        decoder.settings.dateDecodingStrategy = .iso8601
+        _ = try! decoder.decode(random.self, from: randomJSONData)
+    }
+    
+    benchmark("Random Data - Ananda") {
+        _ = AnandaRandom.Model.decode(from: randomJSONData)
+    }
+    
+    benchmark("Random Data - SwiftyJSON") {
+        _ = try! SwiftyJSONRandom.Model(json: SwiftyJSON.JSON(data: randomJSONData))
+    }
+}
+
+// 运行基准测试的公共接口
+public func runBenchmarks() {
+    setupBenchmarks()
+    print("🚀 使用 swift-benchmark 运行 JSON 解码性能基准测试")
+    print("📖 使用方法:")
+    print("   swift run -c release ReerJSONBenchmark")
+    print("   或者使用过滤器: swift run -c release ReerJSONBenchmark --filter 'GitHub Events'")
+    print("   查看所有选项: swift run -c release ReerJSONBenchmark --help")
+    print()
+    main()
+}
+
+#endif
+
+// MARK: - 向后兼容的 Legacy API
+
+@available(*, deprecated, message: "请使用新的 swift-benchmark: 调用 runBenchmarks() 或直接运行 swift run -c release ReerJSONBenchmark")
 public enum Benchmark {
     public static func run(iterations: Int = 1000) {
+        #if canImport(Benchmark)
+        print("⚠️  注意: 建议使用新的基准测试方法:")
+        print("   调用 runBenchmarks() 或")
+        print("   运行 swift run -c release ReerJSONBenchmark")
+        print("   使用过滤器: swift run -c release ReerJSONBenchmark --filter 'Twitter'")
+        print()
+        runBenchmarks()
+        #else
+        print("❌ swift-benchmark 包未找到，回退到旧的实现")
         runAllBenchmarks(iterations: iterations)
+        #endif
     }
 }
 
@@ -485,4 +683,14 @@ func runAllBenchmarks(iterations: Int = 100) {
     }
 }
 
+// MARK: - 主入口点（用于直接运行）
 
+#if canImport(Benchmark)
+// 当作为可执行文件运行时，自动设置基准测试
+private func setupGlobalBenchmarks() {
+    setupBenchmarks()
+}
+
+// 调用设置函数
+private let _setupBenchmarks: Void = setupGlobalBenchmarks()
+#endif
