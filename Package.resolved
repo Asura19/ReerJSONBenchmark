@@ -1,5 +1,5 @@
 {
-  "originHash" : "269ebb39704078fdf5a2407550d2199c8019eed314e4b0fe16207d502760a59a",
+  "originHash" : "a5c44bac3c566c2e836e7ec1fb51da84ef3a24622eb4a6f058b38f5fd104f4d8",
   "pins" : [
     {
       "identity" : "ananda",
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/reers/ReerJSON.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "3b4cdd9e2575b14a4db1750ace2039540f9ccf73"
+        "revision" : "150ab2e964147e510c709d0270b853b82988ba1d",
+        "version" : "0.3.0"
       }
     },
     {

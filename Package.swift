@@ -16,7 +16,7 @@ let package = Package(
             targets: ["ReerJSONBenchmark"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/reers/ReerJSON.git", branch: "main"),
+        .package(url: "https://github.com/reers/ReerJSON.git", from: "0.3.0"),
         .package(url: "https://github.com/michaeleisel/ZippyJSON.git", from: "1.2.15"),
         .package(url: "https://github.com/orlandos-nl/IkigaJSON.git", from: "2.3.2"),
         .package(url: "https://github.com/nixzhu/Ananda.git", from: "1.2.0"),

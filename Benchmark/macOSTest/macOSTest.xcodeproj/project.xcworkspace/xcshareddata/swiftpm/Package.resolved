@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/reers/ReerJSON.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "a57fb56d12c2eb3654d0c25077bccf5c374dbdbe"
+        "revision" : "150ab2e964147e510c709d0270b853b82988ba1d",
+        "version" : "0.3.0"
       }
     },
     {
