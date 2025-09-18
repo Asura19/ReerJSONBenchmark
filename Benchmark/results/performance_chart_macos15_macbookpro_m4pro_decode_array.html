@@ -40,7 +40,7 @@
 <body>
     <div class="chart-container">
         <div class="title">JSON Decoder Performance Comparison - Higher is Better</div>
-        <div class="subtitle">iPhone 14 Plus, iOS 16.1.2 - 1000 iterations per test</div>
+        <div class="subtitle">Apple M4 Pro 48GB MacBook Pro, macOS 15.6 - 1000 iterations per test</div>
         <canvas id="performanceChart"></canvas>
     </div>
 
@@ -51,28 +51,28 @@
         const datasets = [
             {
                 label: 'ReerJSON',
-                data: [1586.49, 577.40, 1343.54, 53.04, 166.09],
+                data: [1574.48, 997.18, 2212.27, 93.81, 360.10],
                 backgroundColor: '#FF3F33',
                 borderColor: '#FF3F33',
                 borderWidth: 1
             },
             {
                 label: 'ZippyJSON',
-                data: [1179.78, 401.39, 991.70, 14.22, 125.79],
+                data: [1321.51, 728.65, 1686.13, 32.46, 277.56],
                 backgroundColor: '#B2C6D5',
                 borderColor: '#B2C6D5',
                 borderWidth: 1
             },
             {
                 label: 'Foundation',
-                data: [457.79, 86.22, 262.28, 3.16, 29.98],
+                data: [1269.59, 442.30, 1184.85, 25.59, 187.43],
                 backgroundColor: '#075B5E',
                 borderColor: '#075B5E',
                 borderWidth: 1
             },
             {
                 label: 'IkigaJSON',
-                data: [151.32, 114.59, 346.27, 5.71, 45.35],
+                data: [195.77, 189.65, 592.69, 14.15, 98.62],
                 backgroundColor: '#9FC87E',
                 borderColor: '#9FC87E',
                 borderWidth: 1
@@ -81,10 +81,10 @@
 
         // Relative performance multipliers (compared to Foundation)
         const relativePerformance = [
-            [3.47, 6.70, 5.12, 16.80, 5.54], // ReerJSON
-            [2.58, 4.66, 3.78, 4.50, 4.20], // ZippyJSON
+            [1.24, 2.25, 1.87, 3.67, 1.92], // ReerJSON
+            [1.04, 1.65, 1.42, 1.27, 1.48], // ZippyJSON
             [1.00, 1.00, 1.00, 1.00, 1.00], // Foundation (baseline)
-            [0.33, 1.33, 1.32, 1.81, 1.51]  // IkigaJSON
+            [0.15, 0.43, 0.50, 0.55, 0.53]  // IkigaJSON
         ];
 
         const chart = new Chart(ctx, {
